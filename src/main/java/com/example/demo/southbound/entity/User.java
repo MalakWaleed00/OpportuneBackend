@@ -53,7 +53,7 @@ public class User implements UserDetails {
     @JoinColumn(name = "role_group", referencedColumnName = "id", nullable = false)
     private Group group;
 
-    private boolean isActive;
+    private boolean isActive = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
