@@ -18,15 +18,14 @@ public class JobRecommendationService {
     private final JobRecommendationModel model;
     private final IJobRepository jobRepository;
 
-    public List<RecommendedJobDTO> getRecommendations(Long userId, int limit) {
+    public List<String> getRecommendations(List<String> userSkills, String userExperience, int topK) {
+        List<String> jobs = model.recommendJobs(userSkills, userExperience, topK);
+        //List<Job> jobs = jobRepository.findAllById(jobIds);
 
-        List<Long> jobIds = model.recommendJobs(userId, limit);
-
-        List<Job> jobs = jobRepository.findAllById(jobIds);
-
-        return jobs.stream()
-                .map(this::toDTO)
-                .toList();
+//        return jobs.stream()
+//                .map(this::toDTO)
+//                .toList();
+        return jobs;
     }
 
     private RecommendedJobDTO toDTO(Job job) {

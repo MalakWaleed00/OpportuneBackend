@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface JobRecommendationModel {
 
-    List<Long> recommendJobs(Long userId, int limit);
+    List<String> recommendJobs(List<String> userSkills, String userExperience, int topk);
 }
