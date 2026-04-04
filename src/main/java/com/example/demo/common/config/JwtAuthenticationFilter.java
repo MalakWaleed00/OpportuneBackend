@@ -1,6 +1,5 @@
 package com.example.demo.common.config;
 
-
 import com.example.demo.service.IJwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -103,5 +102,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
     }
 }
-
 

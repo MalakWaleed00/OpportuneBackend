@@ -1,16 +1,12 @@
 package com.example.demo.common.config;
 
-
-import com.example.demo.service.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,29 +28,12 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public AuthenticationManager authenticationManager(
-//            HttpSecurity http,
-//            PasswordEncoder passwordEncoder,
-//            CustomUserDetailsService userDetailsService
-//    ) throws Exception {
-//
-//        AuthenticationManagerBuilder builder =
-//                http.getSharedObject(AuthenticationManagerBuilder.class);
-//
-//        builder
-//                .userDetailsService(userDetailsService)
-//                .passwordEncoder(passwordEncoder);
-//
-//        return builder.build();
-//    }
 
     @Bean
     public AuthenticationManager authenticationManager(
@@ -74,24 +53,27 @@ public class SecurityConfig {
         };
     }
 
-    // 🔥 CORS Filter Registration
     @Bean
-    public FilterRegistrationBean<CorsFilter> corsFilterRegistration() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.setAllowedOriginPatterns(List.of("*"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowedMethods(List.of("*"));
-        config.setExposedHeaders(List.of("Authorization", "Content-Type"));
 
+        config.setAllowedOrigins(List.of(
+                "http://localhost:5173",
+                "http://localhost:3000"
+        ));
+
+        config.setAllowedMethods(List.of(
+                "GET", "POST", "PUT", "DELETE", "OPTIONS"
+        ));
+
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
 
-        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
-        bean.setOrder(-102);
-
-        return bean;
+        return source;
     }
 
     @Bean
@@ -112,6 +94,7 @@ public class SecurityConfig {
                                 "/api/microsoft-auth/**",
                                 "/login/oauth2/**"
                         ).permitAll()
+                        .requestMatchers("/api/teams/view").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
