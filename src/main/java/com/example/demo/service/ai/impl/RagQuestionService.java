@@ -13,13 +13,26 @@ public class RagQuestionService implements QuestionGenerationService {
     public List<String> generateQuestions(
             String topic,
             QuestionFormat format,
-            int numberOfQuestions
+            int number
     ) {
-
-        // Call RAG model here
 
         System.out.println("Using RAG model");
 
-        return List.of();
+        // 1. Retrieve context
+        List<String> context = List.of(
+                "Key concepts of " + topic,
+                "Common interview discussions about " + topic
+        );
+
+        // 2. Build prompt
+        String prompt = "Generate " + number + " essay interview questions about " + topic +
+                " using the following context:\n" +
+                String.join("\n", context);
+
+        // 3. Call model (mock for now)
+        String response = "Q1...\nQ2...\nQ3...";
+
+        // 4. Parse response
+        return List.of(response.split("\n"));
     }
 }
