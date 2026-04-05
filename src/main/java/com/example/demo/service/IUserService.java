@@ -9,5 +9,5 @@ public interface IUserService {
 
     // This defines the method that UserServiceImpl will fill out
     AuthResponseDTO getUserProfile(Long id);
-
+    void changePassword(Long userId, String currentPassword, String newPassword);
 }
