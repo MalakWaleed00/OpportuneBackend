@@ -1,11 +1,15 @@
 package com.example.demo.domain.dto.job;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class JobRequestDTO {
+    @JsonProperty("skills")
 
     private List<String> skills;
+    @JsonProperty("experience")
     private String experience;
+    @JsonProperty("topK")
     private int topK;
 
     public List<String> getSkills() {

@@ -1,6 +1,7 @@
 package com.example.demo.northbound.controller;
 
 import com.example.demo.domain.dto.job.JobRequestDTO;
+import com.example.demo.domain.dto.job.JobResponseDTO;
 import com.example.demo.domain.dto.job.RecommendedJobDTO;
 import com.example.demo.service.impl.JobRecommendationService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class JobRecommendationController {
     private final JobRecommendationService recommendationService;
 
     @PostMapping("/recommend")
-    public List<String> recommendJobs(@RequestBody JobRequestDTO request) {
+    public List<JobResponseDTO> recommendJobs(@RequestBody JobRequestDTO request) {
         return recommendationService.getRecommendations(
                 request.getSkills(),
                 request.getExperience(),

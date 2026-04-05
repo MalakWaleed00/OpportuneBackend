@@ -59,11 +59,10 @@ public class SecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of(
+       config.setAllowedOrigins(List.of(
                 "http://localhost:5173",
                 "http://localhost:3000"
         ));
-
         config.setAllowedMethods(List.of(
                 "GET", "POST", "PUT", "DELETE", "OPTIONS"
         ));
@@ -80,8 +79,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
+                .cors(Customizer.withDefaults())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
@@ -95,7 +94,8 @@ public class SecurityConfig {
                                 "/login/oauth2/**"
                         ).permitAll()
                         .requestMatchers("/api/users/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/jobs/**").permitAll()
+                         .anyRequest().authenticated()
                 ) // <-- Notice there is NO semicolon here!
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // <-- The semicolon goes at the very end of the chain.
 

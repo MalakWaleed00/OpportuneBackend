@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.domain.dto.job.JobResponseDTO;
 import com.example.demo.domain.dto.job.RecommendedJobDTO;
 import com.example.demo.repository.IJobRepository;
 import com.example.demo.service.ai.JobRecommendationModel;
@@ -18,8 +19,8 @@ public class JobRecommendationService {
     private final JobRecommendationModel model;
     private final IJobRepository jobRepository;
 
-    public List<String> getRecommendations(List<String> userSkills, String userExperience, int topK) {
-        List<String> jobs = model.recommendJobs(userSkills, userExperience, topK);
+    public List<JobResponseDTO> getRecommendations(List<String> skills, String experience, int topK) {
+        List<JobResponseDTO> jobs = model.recommendJobs(skills, experience, topK);
         //List<Job> jobs = jobRepository.findAllById(jobIds);
 
 //        return jobs.stream()
