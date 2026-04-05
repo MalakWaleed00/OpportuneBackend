@@ -95,8 +95,8 @@ public class AuthServiceImpl implements IAuthService {
     public AuthResponseDTO login(LoginRequestDTO request) {
 
         User user = userRepository
-                .findByEmailOrUsername(request.getIdentifier(), request.getIdentifier())
-                .orElseThrow(() -> new InvalidCredentialsException ("Invalid credentials"));
+                .findByEmail(request.getEmail())
+                .orElseThrow(() -> new InvalidCredentialsException("Invalid credentials"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new InvalidCredentialsException("Invalid credentials");
