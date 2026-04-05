@@ -94,6 +94,7 @@ public class SecurityConfig {
                                 "/api/microsoft-auth/**",
                                 "/login/oauth2/**"
                         ).permitAll()
+                        .requestMatchers("/api/users/**").permitAll()
                         .requestMatchers("/api/teams/view").permitAll()
                         .anyRequest().authenticated()
                 )

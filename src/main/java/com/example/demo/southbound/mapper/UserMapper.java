@@ -29,4 +29,6 @@ public interface UserMapper {
     @Mapping(target = "level", ignore = true)
     @Mapping(target = "yearsOfExperience", ignore = true)
     UserSkill toUserSkill(User user, Skill skill);
+
+
 }
