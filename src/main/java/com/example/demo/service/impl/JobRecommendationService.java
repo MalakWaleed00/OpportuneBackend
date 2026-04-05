@@ -28,6 +28,7 @@ public class JobRecommendationService {
         return jobs;
     }
 
+
     private RecommendedJobDTO toDTO(Job job) {
 
         RecommendedJobDTO dto = new RecommendedJobDTO();
