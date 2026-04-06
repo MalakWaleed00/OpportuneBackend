@@ -23,9 +23,9 @@ public class AuthUtilsImpl implements IAuthUtils {
             throw new RuntimeException("No authenticated user found");
         }
 
-        String username = authentication.getName();
+        String principal = authentication.getName();
 
-        return userRepository.findByUsername(username)
+        return userRepository.findByEmailOrUsername(principal, principal)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 

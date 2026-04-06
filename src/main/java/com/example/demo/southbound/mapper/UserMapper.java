@@ -8,6 +8,10 @@ import com.example.demo.southbound.entity.UserSkill;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
@@ -23,6 +27,8 @@ public interface UserMapper {
 
     @Mapping(target = "role", source = "role.name")
     @Mapping(target = "token", ignore = true)
+    @Mapping(target = "username", expression = "java(user.getProfileUsername())")
+    @Mapping(target = "skills", expression = "java(toSkillNames(user))")
     AuthResponseDTO toAuthResponse(User user);
 
     @Mapping(target = "id", ignore = true)
@@ -30,5 +36,18 @@ public interface UserMapper {
     @Mapping(target = "yearsOfExperience", ignore = true)
     UserSkill toUserSkill(User user, Skill skill);
 
+    default Set<String> toSkillNames(User user) {
+        if (user.getUserSkills() == null) {
+            return Collections.emptySet();
+        }
+
+        return user.getUserSkills()
+                .stream()
+                .map(UserSkill::getSkill)
+                .filter(java.util.Objects::nonNull)
+                .map(Skill::getName)
+                .filter(java.util.Objects::nonNull)
+                .collect(Collectors.toCollection(java.util.LinkedHashSet::new));
+    }
 
 }

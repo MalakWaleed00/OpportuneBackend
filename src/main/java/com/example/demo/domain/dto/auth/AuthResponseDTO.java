@@ -2,6 +2,8 @@ package com.example.demo.domain.dto.auth;
 
 import lombok.*;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,7 +21,13 @@ public class AuthResponseDTO {
 
     private String role;
 
+    private String location;
+
+    private String cvLink;
+
     private String profilePicLink;
+
+    private Set<String> skills;
 
     private boolean active;
 
