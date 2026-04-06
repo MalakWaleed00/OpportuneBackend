@@ -30,7 +30,7 @@ public class JobRecommendationService {
     }
 
 
-    private RecommendedJobDTO toDTO(Job job) {
+   /* private RecommendedJobDTO toDTO(Job job) {
 
         RecommendedJobDTO dto = new RecommendedJobDTO();
 
@@ -50,5 +50,5 @@ public class JobRecommendationService {
         );
 
         return dto;
-    }
+    }*/
 }

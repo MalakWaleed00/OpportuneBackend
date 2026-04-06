@@ -1,4 +1,5 @@
 package com.example.demo.service.ai.impl;
+import com.example.demo.domain.dto.job.JobDetails;
 import com.example.demo.service.ISerpApiService;
 import com.example.demo.service.ai.JobRecommendationModel;
 import lombok.RequiredArgsConstructor;
@@ -60,9 +61,27 @@ public class AiJobRecommendationModel implements JobRecommendationModel {
                 String title = (String) rec.get("job_title");
                 List<String> contributingSkills =
                         (List<String>) rec.get("contributing_skills");
-                List<String> jobs = serpApiService.searchJobs(title, contributingSkills);
+                List<JobDetails> jobs = serpApiService.searchJobs(title, contributingSkills);
+                List<JobDetails> filteredJobs = new ArrayList<>();
 
-                result.add(new JobResponseDTO(title, contributingSkills,jobs));
+                for (JobDetails job : jobs) {
+
+                    String description = job.getDescription().toLowerCase();
+
+                    boolean match = false;
+
+                    for (String skill : contributingSkills) {
+                        if (description.contains(skill.toLowerCase())) {
+                            match = true;
+                            break;
+                        }
+                    }
+
+                    if (match) {
+                        filteredJobs.add(job);
+                    }
+                }
+                result.add(new JobResponseDTO(title, contributingSkills,filteredJobs));
             }
 
             return result;
