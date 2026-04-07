@@ -22,8 +22,9 @@ public class SerpApiImpl implements ISerpApiService {
     @Override
     public List<JobDetails> searchJobs(String jobTitle, List<String> skills) {
 
-       // String rawQuery = jobTitle + " " + String.join(" ", skills);
-        String rawQuery= jobTitle;
+        // ✅ FIX: handle null/empty title
+        String rawQuery = (jobTitle == null || jobTitle.isBlank()) ? "jobs" : jobTitle;
+
         String query = URLEncoder.encode(rawQuery, StandardCharsets.UTF_8);
 
         String url = "https://serpapi.com/search.json?engine=google_jobs&q="
@@ -57,7 +58,6 @@ public class SerpApiImpl implements ISerpApiService {
                 List<String> extensions =
                         (List<String>) job.getOrDefault("extensions", new ArrayList<>());
 
-                // apply options
                 List<Map<String, Object>> applyList =
                         (List<Map<String, Object>>) job.getOrDefault("apply_options", new ArrayList<>());
 

@@ -8,7 +8,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "jobs")
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"title", "company"})
+})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -37,6 +39,8 @@ public class Job {
     private String experienceLevel;
 
     private LocalDateTime createdAt;
+
+    private String Link;
 
     @ManyToMany
     @JoinTable(
