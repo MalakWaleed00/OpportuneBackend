@@ -50,6 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // 🔥 Skip JWT logic for public endpoints
         if (path.startsWith("/api/auth")
+                || path.startsWith("/api/interview/")
                 || path.startsWith("/swagger-ui")
                 || path.startsWith("/v3/api-docs")
                 || path.startsWith("/api/microsoft-auth")
@@ -59,7 +60,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
+        if (path.startsWith("/api/interview/")) {
+            System.out.println("🔓 Allowing interview endpoint without authentication: " + path);
+            filterChain.doFilter(request, response);
+            return;
+        }
         final String jwt = extractJwtFromRequest(request);
 
         if (jwt != null) {
