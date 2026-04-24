@@ -41,7 +41,7 @@ public class RagQuestionService implements QuestionGenerationService {
 
     public RagQuestionService(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder
-                .defaultHeader("Content-Type",              "application/json")
+                .defaultHeader("Content-Type","application/json")
                 .defaultHeader("ngrok-skip-browser-warning", "true")
                 .build();
     }
@@ -53,10 +53,14 @@ public class RagQuestionService implements QuestionGenerationService {
     // Returns list of QuestionResponseDTO
     // ─────────────────────────────────────────────────────────────
     public List<QuestionResponseDTO> generateQuestions(String jobDescription) {
+        if (jobDescription == null || jobDescription.isBlank()) {
+            throw new IllegalArgumentException("jobDescription must not be null or blank");
+        }
         Map<String, String> requestBody = Map.of("job_description", jobDescription);
 
         String responseJson = webClient.post()
                 .uri(ragApiBaseUrl + "/interview/generate")
+                .header("ngrok-skip-browser-warning", "true")
                 .body(Mono.just(requestBody), Map.class)
                 .retrieve()
                 .bodyToMono(String.class)

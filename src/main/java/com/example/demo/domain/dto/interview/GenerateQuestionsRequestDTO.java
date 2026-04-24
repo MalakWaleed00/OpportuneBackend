@@ -14,6 +14,6 @@ import lombok.Setter;
 @Setter
 public class GenerateQuestionsRequestDTO {
     /** The full job description text sent from the frontend. */
-    @JsonProperty("jobDescription")   // ← add this
+    @JsonProperty("jobDescription")  // matches what frontend sends
     private String jobDescription;
 }
