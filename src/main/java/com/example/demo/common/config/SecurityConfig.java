@@ -1,6 +1,7 @@
 package com.example.demo.common.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,6 +11,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.List;
 
@@ -57,10 +60,9 @@ public class SecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-       config.setAllowedOrigins(List.of(
-                "http://localhost:5174",
-                "http://localhost:3000",
-                "http://localhost:5173"
+        config.setAllowedOrigins(List.of(
+                "http://localhost:5173",
+                "http://localhost:3000"
         ));
         config.setAllowedMethods(List.of(
                 "GET", "POST", "PUT", "DELETE", "OPTIONS"
@@ -94,20 +96,15 @@ public class SecurityConfig {
                         ).permitAll()
                         .requestMatchers("/api/users/**").permitAll()
                         .requestMatchers("/api/jobs/**").permitAll()
-                         .anyRequest().authenticated()
+                        .requestMatchers("/api/interview/**").permitAll()
+                        .requestMatchers("/parse/**").permitAll()
+                        .anyRequest().authenticated()
                 ) // <-- Notice there is NO semicolon here!
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // <-- The semicolon goes at the very end of the chain.
 
+
         return http.build();
     }
-
-
-
-
-
-
-
-
 
 
 }

@@ -1,6 +1,7 @@
 package com.example.demo.northbound.controller;
 
 import com.example.demo.domain.dto.interview.GenerateQuestionsRequestDTO;
+import com.example.demo.domain.dto.interview.GenerateQuestionsResponseDTO;
 import com.example.demo.service.IInterviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +18,13 @@ public class InterviewController {
     private final IInterviewService interviewService;
 
     @PostMapping("/generate")
-    public ResponseEntity<?> generateQuestions(
+    public ResponseEntity<GenerateQuestionsResponseDTO> generateQuestions(
             @RequestBody GenerateQuestionsRequestDTO request
     ) {
-
-        interviewService.generateQuestions(
-                request.getTopic(),
-                request.getQuestionFormat(),
-                request.getNumberOfQuestions()
+        GenerateQuestionsResponseDTO response = interviewService.generateQuestions(
+                request.getJob_description()
         );
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(response);
     }
 }

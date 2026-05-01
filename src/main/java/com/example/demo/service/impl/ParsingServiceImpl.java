@@ -1,12 +1,10 @@
 package com.example.demo.service.impl;
-
 import com.example.demo.domain.dto.parsing.ParsingResponseDTO;
 import com.example.demo.service.IParsingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.Map;
 
 @Service

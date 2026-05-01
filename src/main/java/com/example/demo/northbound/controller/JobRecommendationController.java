@@ -2,11 +2,12 @@ package com.example.demo.northbound.controller;
 
 import com.example.demo.domain.dto.job.JobRequestDTO;
 import com.example.demo.domain.dto.job.JobResponseDTO;
-import com.example.demo.domain.dto.job.RecommendedJobDTO;
 import com.example.demo.service.impl.JobRecommendationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

@@ -7,8 +7,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GenerateQuestionsRequestDTO {
+    private String job_description;
 
-    private String topic;
-    private QuestionFormat questionFormat;
-    private int numberOfQuestions;
+
+    public String getJob_description() {
+        return job_description;
+    }
 }

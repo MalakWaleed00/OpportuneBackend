@@ -2,7 +2,6 @@ package com.example.demo.northbound.controller;
 
 import com.example.demo.domain.dto.auth.AuthResponseDTO;
 import com.example.demo.domain.dto.auth.ChangePasswordDTO;
-import com.example.demo.domain.dto.auth.UpdateProfileRequestDTO;
 import com.example.demo.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,26 +17,9 @@ public class UserController {
 
     @GetMapping("/{id}/profile")
     public ResponseEntity<AuthResponseDTO> getUserProfile(@PathVariable Long id) {
+        // Calls the service implementation we just fixed!
         AuthResponseDTO response = userService.getUserProfile(id);
         return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/me/profile")
-    public ResponseEntity<AuthResponseDTO> getCurrentUserProfile() {
-        return ResponseEntity.ok(userService.getCurrentUserProfile());
-    }
-
-    @PutMapping("/{id}/profile")
-    public ResponseEntity<AuthResponseDTO> updateUserProfile(
-            @PathVariable Long id,
-            @RequestBody UpdateProfileRequestDTO request) {
-        return ResponseEntity.ok(userService.updateUserProfile(id, request));
-    }
-
-    @PutMapping("/me/profile")
-    public ResponseEntity<AuthResponseDTO> updateCurrentUserProfile(
-            @RequestBody UpdateProfileRequestDTO request) {
-        return ResponseEntity.ok(userService.updateCurrentUserProfile(request));
     }
 
     @PutMapping("/{id}/change-password")
@@ -53,15 +35,4 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-    @PutMapping("/me/change-password")
-    public ResponseEntity<?> changeCurrentUserPassword(@RequestBody ChangePasswordDTO dto) {
-        try {
-            userService.changeCurrentUserPassword(dto.currentPassword, dto.newPassword);
-            return ResponseEntity.ok().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
 }
