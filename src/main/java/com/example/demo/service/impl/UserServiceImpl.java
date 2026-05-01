@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.common.util.IAuthUtils;
 import com.example.demo.domain.dto.auth.AuthResponseDTO;
 import com.example.demo.domain.dto.auth.UpdateProfileRequestDTO;
+import com.example.demo.domain.dto.auth.UserProfileDTO;
 import com.example.demo.repository.ISkillRepository;
 import com.example.demo.repository.IUserRepository;
 import com.example.demo.service.IUserService;

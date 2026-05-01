@@ -97,7 +97,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/**").permitAll()
                         .requestMatchers("/api/jobs/**").permitAll()
                         .requestMatchers("/api/interview/**").permitAll()
-                        .requestMatchers("/parse/**").permitAll()
+                        .requestMatchers("/api/cv/**").permitAll()
                         .anyRequest().authenticated()
                 ) // <-- Notice there is NO semicolon here!
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // <-- The semicolon goes at the very end of the chain.

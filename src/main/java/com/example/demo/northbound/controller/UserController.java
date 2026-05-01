@@ -2,7 +2,9 @@ package com.example.demo.northbound.controller;
 
 import com.example.demo.domain.dto.auth.AuthResponseDTO;
 import com.example.demo.domain.dto.auth.ChangePasswordDTO;
+import com.example.demo.domain.dto.parsing.CvDTO;
 import com.example.demo.service.IUserService;
+import com.example.demo.southbound.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,4 +37,6 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+
 }

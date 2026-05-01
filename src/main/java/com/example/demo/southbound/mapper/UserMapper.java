@@ -2,6 +2,7 @@ package com.example.demo.southbound.mapper;
 
 import com.example.demo.domain.dto.auth.AuthResponseDTO;
 import com.example.demo.domain.dto.auth.RegisterRequestDTO;
+import com.example.demo.domain.dto.auth.UserProfileDTO;
 import com.example.demo.southbound.entity.Skill;
 import com.example.demo.southbound.entity.User;
 import com.example.demo.southbound.entity.UserSkill;
@@ -25,6 +26,7 @@ public interface UserMapper {
     @Mapping(target = "username", source = "username")
     User toEntity(RegisterRequestDTO dto);
 
+    @Mapping(target = "id", source = "id")
     @Mapping(target = "role", source = "role.name")
     @Mapping(target = "token", ignore = true)
     @Mapping(target = "username", expression = "java(user.getProfileUsername())")

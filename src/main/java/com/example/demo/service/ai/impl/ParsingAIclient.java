@@ -1,6 +1,6 @@
 package com.example.demo.service.ai.impl;
 
-import com.example.demo.domain.dto.parsing.CandidateProfile;
+import com.example.demo.domain.dto.parsing.CvDTO;
 import com.example.demo.service.ai.ParsingModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.io.ByteArrayResource;
@@ -23,7 +23,7 @@ public class ParsingAIclient implements ParsingModel {
     }
 
     @Override
-    public CandidateProfile parseCV(MultipartFile file) {
+    public CvDTO parseCV(MultipartFile file) {
 
         try {
 
@@ -52,7 +52,7 @@ public class ParsingAIclient implements ParsingModel {
                 throw new RuntimeException("Gemini API Error: " + rawJson);
             }
             // 3. Now let Jackson try to map it (or use an ObjectMapper)
-            return new ObjectMapper().readValue(rawJson, CandidateProfile.class);
+            return new ObjectMapper().readValue(rawJson, CvDTO.class);
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to send PDF to AI", e);
