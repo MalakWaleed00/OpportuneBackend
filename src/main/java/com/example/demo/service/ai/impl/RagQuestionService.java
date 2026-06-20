@@ -17,25 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import com.example.demo.service.ai.QuestionGenerationService;
-/**
- * RagQuestionService
- *
- * Calls the Python RAG API (FastAPI + ngrok) for two operations:
- *   1. POST /interview/generate  — returns personalised interview questions
- *   2. POST /interview/evaluate  — returns per-cluster feedback report
- *
- * File location: src/main/java/com/example/demo/service/ai/impl/RagQuestionService.java
- */
+
 @Service
 public class RagQuestionService implements QuestionGenerationService {
 
     private final WebClient webClient;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    /**
-     * Set the Python API base URL in application.properties:
-     *   rag.api.base-url=https://YOUR-NGROK-URL.ngrok-free.app
-     */
+
     @Value("${rag.api.base-url}")
     private String ragApiBaseUrl;
 
@@ -46,12 +35,6 @@ public class RagQuestionService implements QuestionGenerationService {
                 .build();
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // 1. GENERATE QUESTIONS
-    // POST /interview/generate
-    // Body : { "job_description": "..." }
-    // Returns list of QuestionResponseDTO
-    // ─────────────────────────────────────────────────────────────
     public List<QuestionResponseDTO> generateQuestions(String jobDescription) {
         if (jobDescription == null || jobDescription.isBlank()) {
             throw new IllegalArgumentException("jobDescription must not be null or blank");
@@ -69,15 +52,6 @@ public class RagQuestionService implements QuestionGenerationService {
         return parseQuestionsFromResponse(responseJson);
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // 2. EVALUATE ANSWERS
-    // POST /interview/evaluate
-    // Body : { "answers": [ { "cluster_id": 0, "skills": [...],
-    //           "question": "...", "user_answer": "...",
-    //           "correct_answer": "..." } ] }
-    // Returns the raw JSON string from Python (your InterviewServiceImpl
-    // can parse this into whatever response model you need)
-    // ─────────────────────────────────────────────────────────────
     public String evaluateAnswers(List<Map<String, Object>> answers) {
         Map<String, Object> requestBody = Map.of("answers", answers);
 
@@ -89,9 +63,7 @@ public class RagQuestionService implements QuestionGenerationService {
                 .block();
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // HELPER — parse Python response JSON into QuestionResponseDTO list
-    // ─────────────────────────────────────────────────────────────
+
     private List<QuestionResponseDTO> parseQuestionsFromResponse(String json) {
         List<QuestionResponseDTO> result = new ArrayList<>();
         try {
@@ -116,12 +88,5 @@ public class RagQuestionService implements QuestionGenerationService {
             throw new RuntimeException("Failed to parse RAG API response: " + e.getMessage(), e);
         }
         return result;
-    }
-    @Override
-    public List<String> generateQuestions(String topic, QuestionFormat format, int numberOfQuestions) {
-        return generateQuestions(topic)
-                .stream()
-                .map(QuestionResponseDTO::getQuestion)
-                .collect(java.util.stream.Collectors.toList());
     }
 }
