@@ -18,7 +18,7 @@ public class ParsingAIclient implements ParsingModel {
 
     public ParsingAIclient() {
         this.webClient = WebClient.builder()
-                .baseUrl("http://localhost:8000")
+                .baseUrl("http://localhost:8003")
                 .build();
     }
 
@@ -39,7 +39,7 @@ public class ParsingAIclient implements ParsingModel {
                     .filename(file.getOriginalFilename());
 
             String rawJson = webClient.post()
-                    .uri("/parse/cv")
+                    .uri("/parse/cv/")
                     .contentType(MediaType.MULTIPART_FORM_DATA)
                     .body(BodyInserters.fromMultipartData(builder.build()))
                     .retrieve()
@@ -48,6 +48,11 @@ public class ParsingAIclient implements ParsingModel {
 
             System.out.println(("APII KEY: "+System.getenv("GEMINI_API_KEY")));            // 2. Print it to your IntelliJ console
             System.out.println("DEBUG RAW JSON: " + rawJson);
+
+            if (rawJson == null) {
+                throw new RuntimeException("FastAPI returned null response");
+            }
+
             if (rawJson.contains("\"error\"")) {
                 throw new RuntimeException("Gemini API Error: " + rawJson);
             }

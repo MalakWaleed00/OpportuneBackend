@@ -1,0 +1,136 @@
+@startuml
+
+' =======================
+' Core Entities
+' =======================
+
+class User {
+    id
+    username
+    email
+}
+
+class Role {
+    id
+    name
+}
+
+
+class Skill {
+    id
+    name
+}
+
+
+class Job {
+    id
+    title
+    company
+}
+
+class JobRecommendation {
+    id
+    score
+}
+
+class InterviewSession {
+    id
+    topic
+}
+
+class InterviewQuestion {
+    id
+    questionText
+}
+
+class UserAnswer {
+    id
+    answer
+    correct
+}
+
+class WorkExperience {
+    id
+    company
+    position
+}
+
+class UserSkill {
+    id
+    level
+    yearsOfExperience
+}
+
+' =======================
+' CV Entities (FIXED)
+' =======================
+
+class Cv {
+    id
+    userId
+}
+
+class CvEducation {
+    id
+    cvId
+}
+
+class CvInternship {
+    id
+    cvId
+}
+
+class CvJob {
+    id
+    cvId
+}
+
+class CvProject {
+    id
+    cvId
+}
+
+class CvSkill {
+    id
+    cvId
+}
+
+class ProjectTechnology {
+    id
+    projectId
+    technology
+}
+
+' =======================
+' Relationships
+' =======================
+
+User "*" --> "1" Role
+
+
+User "1" --> "*" WorkExperience
+User "1" --> "*" UserSkill
+User "1" --> "1" Cv
+
+UserSkill "*" --> "1" Skill
+Job "*" -- "*" Skill
+
+JobRecommendation "*" --> "1" User
+JobRecommendation "*" --> "1" Job
+
+InterviewSession "*" --> "1" User
+InterviewSession "*" --> "*" InterviewQuestion
+
+
+UserAnswer "*" --> "1" User
+UserAnswer "*" --> "1" InterviewQuestion
+Cv "1" --> "*" CvEducation
+Cv "1" --> "*" CvInternship
+Cv "1" --> "*" CvJob
+Cv "1" --> "*" CvProject
+Cv "1" --> "*" CvSkill
+
+' Project technologies belong to CvProject (logical fix)
+CvProject "1" --> "*" ProjectTechnology
+
+@enduml

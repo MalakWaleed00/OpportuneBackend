@@ -26,7 +26,7 @@ public class AiJobRecommendationModel implements JobRecommendationModel {
     @Override
     public List<JobResponseDTO> recommendJobs(List<String> skills, String experience, int topK) {
 
-        String url = "http://localhost:8000/recommend";
+        String url = "http://localhost:8002/recommend";
 
         // Correct field names
         Map<String, Object> requestBody = Map.of(
