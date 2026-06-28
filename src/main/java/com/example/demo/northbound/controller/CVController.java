@@ -7,6 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.service.ICvService;
+
+import java.io.IOException;
+
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/cv")
@@ -22,7 +25,7 @@ public class CVController {
 
     @PostMapping(value = "/parse", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String uploadCV(@RequestPart("file") MultipartFile file,
-                           @RequestParam Long userId) {
+                           @RequestParam Long userId) throws IOException {
 
         CvDTO parsedCv = parsingAIclient.parseCV(file);
         cvService.saveCv(userId, parsedCv);

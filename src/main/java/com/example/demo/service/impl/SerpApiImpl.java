@@ -22,9 +22,7 @@ public class SerpApiImpl implements ISerpApiService {
     @Override
     public List<JobDetails> searchJobs(String jobTitle, List<String> skills) {
 
-        // ✅ FIX: handle null/empty title
         String rawQuery = (jobTitle == null || jobTitle.isBlank()) ? "jobs" : jobTitle;
-
         String query = URLEncoder.encode(rawQuery, StandardCharsets.UTF_8);
 
         String url = "https://serpapi.com/search.json?engine=google_jobs&q="
@@ -40,12 +38,24 @@ public class SerpApiImpl implements ISerpApiService {
 
             Map<String, Object> body = response.getBody();
 
+            // ✅ FIX 1: body null check
+            if (body == null) {
+                return new ArrayList<>();
+            }
+
             List<Map<String, Object>> jobs =
                     (List<Map<String, Object>>) body.get("jobs_results");
+
+            // ✅ FIX 2: jobs null check
+            if (jobs == null || jobs.isEmpty()) {
+                return new ArrayList<>();
+            }
 
             List<JobDetails> result = new ArrayList<>();
 
             for (Map<String, Object> job : jobs) {
+
+                if (job == null) continue;
 
                 String title = (String) job.get("title");
                 String company = (String) job.get("company_name");
@@ -87,7 +97,7 @@ public class SerpApiImpl implements ISerpApiService {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return List.of();
+            return new ArrayList<>(); // ✅ NEVER return null
         }
     }
 }

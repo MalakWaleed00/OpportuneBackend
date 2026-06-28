@@ -102,6 +102,90 @@ class ProjectTechnology {
 }
 
 ' =======================
+' Application Tracker Entities
+' =======================
+
+class Application {
+    id
+    jobTitle
+    company
+    location
+    salary
+    appliedDate
+    status: ApplicationStatus
+    notes
+}
+
+class ApplicationStatus <<enumeration>> {
+    APPLIED
+    INTERVIEW_SCHEDULED
+    INTERVIEW_DONE
+    OFFER_RECEIVED
+    OFFER_ACCEPTED
+    REJECTED
+    WITHDRAWN
+}
+
+' =======================
+' Recruiter Entities
+' =======================
+
+class JobPosting {
+    id
+    title
+    companyName
+    location
+    jobType: JobType
+    experienceLevel: ExperienceLevel
+    salaryRange
+    description
+    deadline
+    status: JobPostingStatus
+    applicationCount
+    postedAt
+}
+
+class JobType <<enumeration>> {
+    FULL_TIME
+    PART_TIME
+    CONTRACT
+    REMOTE
+    INTERNSHIP
+}
+
+class ExperienceLevel <<enumeration>> {
+    ENTRY_LEVEL
+    MID_LEVEL
+    SENIOR_LEVEL
+    EXPERT
+}
+
+class JobPostingStatus <<enumeration>> {
+    ACTIVE
+    CLOSED
+}
+
+' =======================
+' Course Recommendation Entities
+' =======================
+
+class Course {
+    id
+    courseName
+    url
+    difficulty
+    rating
+}
+
+class CourseRecommendation {
+    id
+    missingSkill
+    matchedSkill
+    matchScore
+    recommendedAt
+}
+
+' =======================
 ' Relationships
 ' =======================
 
@@ -132,5 +216,17 @@ Cv "1" --> "*" CvSkill
 
 ' Project technologies belong to CvProject (logical fix)
 CvProject "1" --> "*" ProjectTechnology
+
+CourseRecommendation "*" --> "1" User
+CourseRecommendation "*" --> "1" Job
+CourseRecommendation "*" --> "1" Course
+
+Application "*" --> "1" User
+Application "*" --> "1" ApplicationStatus
+
+JobPosting "*" --> "1" User
+JobPosting "*" --> "1" JobType
+JobPosting "*" --> "1" ExperienceLevel
+JobPosting "*" --> "1" JobPostingStatus
 
 @enduml

@@ -100,7 +100,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/**").permitAll()
                         .requestMatchers("/api/jobs/**").permitAll()
                         .requestMatchers("/api/interview/**").permitAll()
+                        .requestMatchers("/api/cv/parse").permitAll()
                         .requestMatchers("/api/cv/**").permitAll()
+                        .requestMatchers("/error").permitAll()
+                        .requestMatchers("/api/courses/**").permitAll()
+                        .requestMatchers("/api/applications/**").permitAll()
+                        .requestMatchers("/api/recruiter/**").permitAll()
                         .anyRequest().authenticated()
                 ) // <-- Notice there is NO semicolon here!
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // <-- The semicolon goes at the very end of the chain.
