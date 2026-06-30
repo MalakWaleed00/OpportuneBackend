@@ -23,7 +23,7 @@ public class RecruiterController {
         return ResponseEntity.status(HttpStatus.CREATED).body(jobPostingService.createJob(request));
     }
 
-    @GetMapping("/jobs/my")
+    @GetMapping("/jobs")
     public ResponseEntity<List<JobPostingResponseDTO>> getMyJobs() {
         return ResponseEntity.ok(jobPostingService.getMyJobs());
     }
@@ -41,7 +41,7 @@ public class RecruiterController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/jobs/{id}/toggle-status")
+    @PutMapping("/jobs/{id}/toggle-status")
     public ResponseEntity<JobPostingResponseDTO> toggleStatus(@PathVariable Long id) {
         return ResponseEntity.ok(jobPostingService.toggleStatus(id));
     }

@@ -30,7 +30,7 @@ public class AiJobRecommendationModel implements JobRecommendationModel {
 
         // Correct field names
         Map<String, Object> requestBody = Map.of(
-                "user_skills", skills,
+                "skills", skills,
                 "user_experience", experience,
                 "topK", topK
         );

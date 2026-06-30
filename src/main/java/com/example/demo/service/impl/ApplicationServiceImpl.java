@@ -100,7 +100,8 @@ public class ApplicationServiceImpl implements IApplicationService {
         int active = (int) applications.stream()
                 .filter(a -> a.getStatus() != ApplicationStatus.REJECTED
                         && a.getStatus() != ApplicationStatus.WITHDRAWN
-                        && a.getStatus() != ApplicationStatus.OFFER_ACCEPTED)
+                        && a.getStatus() != ApplicationStatus.OFFER_ACCEPTED
+                        && a.getStatus() != ApplicationStatus.WISHLIST)
                 .count();
 
         int interviewRate = total > 0 ? (int) Math.round((interviews * 100.0) / total) : 0;
