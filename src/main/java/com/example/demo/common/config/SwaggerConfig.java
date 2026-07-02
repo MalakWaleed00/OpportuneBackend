@@ -11,21 +11,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(title = "API Documentation", version = "v1"),
-        security = @SecurityRequirement(name = "bearerAuth"),
-        servers = {  // ADD THIS SECTION
-
-                @Server(
-                        url = "http://localhost:8080",
-                        description = "Local Development Server"
-                )
-        }
+        security = @SecurityRequirement(name = "bearerAuth")
 )
 @SecurityScheme(
         name = "bearerAuth",
         type = SecuritySchemeType.HTTP,
         scheme = "bearer",
         bearerFormat = "JWT"
-
 )
 public class SwaggerConfig {
 }
