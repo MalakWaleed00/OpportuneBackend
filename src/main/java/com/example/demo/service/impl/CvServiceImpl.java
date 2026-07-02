@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,63 +47,38 @@ public class CvServiceImpl implements ICvService {
         Long cvId = cv.getId();
 
         // Skills
-        dto.getSkills().forEach(skill ->
-                skillRepository.save(CvSkill.builder()
-                        .cvId(cvId)
-                        .skill(skill)
-                        .build())
-        );
+        Optional.ofNullable(dto.getSkills()).orElse(Collections.emptyList())
+                .forEach(skill -> skillRepository.save(CvSkill.builder()
+                        .cvId(cvId).skill(skill).build()));
 
         // Education
-        dto.getEducation().forEach(e ->
-                educationRepository.save(CvEducation.builder()
-                        .cvId(cvId)
-                        .degree(e.getDegree())
-                        .institution(e.getInstitution())
-                        .year(e.getYear())
-                        .build())
-        );
+        Optional.ofNullable(dto.getEducation()).orElse(Collections.emptyList())
+                .forEach(e -> educationRepository.save(CvEducation.builder()
+                        .cvId(cvId).degree(e.getDegree())
+                        .institution(e.getInstitution()).year(e.getYear()).build()));
 
         // Jobs
-        dto.getJobs().forEach(j ->
-                jobRepository.save(CvJob.builder()
-                        .cvId(cvId)
-                        .title(j.getTitle())
-                        .company(j.getCompany())
-                        .summary(j.getSummary())
-                        .build())
-        );
+        Optional.ofNullable(dto.getJobs()).orElse(Collections.emptyList())
+                .forEach(j -> jobRepository.save(CvJob.builder()
+                        .cvId(cvId).title(j.getTitle())
+                        .company(j.getCompany()).summary(j.getSummary()).build()));
 
         // Projects + technologies
-        dto.getProjects().forEach(p -> {
-            CvProject project = projectRepository.save(
-                    CvProject.builder()
-                            .cvId(cvId)
-                            .name(p.getName())
-                            .description(p.getDescription())
-                            .build()
-            );
+        Optional.ofNullable(dto.getProjects()).orElse(Collections.emptyList())
+                .forEach(p -> {
+                    CvProject project = projectRepository.save(CvProject.builder()
+                            .cvId(cvId).name(p.getName()).description(p.getDescription()).build());
 
-            Long projectId = project.getId();
-
-            p.getTechnologies().forEach(t ->
-                    techRepository.save(ProjectTechnology.builder()
-                            .projectId(projectId)
-                            .technology(t)
-                            .build())
-            );
-        });
+                    Optional.ofNullable(p.getTechnologies()).orElse(Collections.emptyList())
+                            .forEach(t -> techRepository.save(ProjectTechnology.builder()
+                                    .projectId(project.getId()).technology(t).build()));
+                });
 
         // Internships
-        dto.getInternships().forEach(i ->
-                internshipRepository.save(CvInternship.builder()
-                        .cvId(cvId)
-                        .title(i.getTitle())
-                        .company(i.getCompany())
-                        .duration(i.getDuration())
-                        .summary(i.getSummary())
-                        .build())
-        );
+        Optional.ofNullable(dto.getInternships()).orElse(Collections.emptyList())
+                .forEach(i -> internshipRepository.save(CvInternship.builder()
+                        .cvId(cvId).title(i.getTitle()).company(i.getCompany())
+                        .duration(i.getDuration()).summary(i.getSummary()).build()));
     }
 
 
