@@ -10,7 +10,6 @@ import com.example.demo.service.ICvService;
 
 import java.io.IOException;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/cv")
 public class CVController {
