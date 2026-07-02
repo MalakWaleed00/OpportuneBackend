@@ -39,7 +39,7 @@ public class ParsingAIclient implements ParsingModel {
             builder.part("file", resource).filename(file.getOriginalFilename());
 
             String rawJson = webClient.post()
-                    .uri("/parse_cv/")
+                    .uri("/parse/cv/")
                     .contentType(MediaType.MULTIPART_FORM_DATA)
                     .body(BodyInserters.fromMultipartData(builder.build()))
                     .retrieve()
