@@ -34,6 +34,19 @@ public class CvServiceImpl implements ICvService {
     @Transactional
     public void saveCv(Long userId, CvDTO dto) {
 
+        // Delete any existing CV rows for this user before saving the new one
+        cvRepository.findAllByUserId(userId).forEach(existing -> {
+            Long oldId = existing.getId();
+            skillRepository.deleteAll(skillRepository.findByCvId(oldId));
+            educationRepository.deleteAll(educationRepository.findByCvId(oldId));
+            jobRepository.deleteAll(jobRepository.findByCvId(oldId));
+            projectRepository.findByCvId(oldId).forEach(p ->
+                techRepository.deleteAll(techRepository.findByProjectId(p.getId())));
+            projectRepository.deleteAll(projectRepository.findByCvId(oldId));
+            internshipRepository.deleteAll(internshipRepository.findByCvId(oldId));
+            cvRepository.delete(existing);
+        });
+
         Cv cv = Cv.builder()
                 .userId(userId)
                 .name(dto.getName())
@@ -86,7 +99,7 @@ public class CvServiceImpl implements ICvService {
     public CvDTO getCvByUserId(Long userId) {
 
         // 1. Get main CV
-        Cv cv = cvRepository.findByUserId(userId)
+        Cv cv = cvRepository.findFirstByUserIdOrderByIdDesc(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "CV not found for user " + userId));
 
         Long cvId = cv.getId();
