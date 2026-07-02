@@ -17,7 +17,8 @@ public class CorsConfig {
                         .allowedOrigins(
                             "http://localhost:3000",
                             "http://localhost:5173",
-                            "http://localhost:8080"
+                            "http://localhost:8080",
+                            "https://opportune-frontend-three.vercel.app/"
                         )
                         .allowedMethods("*");
             }
