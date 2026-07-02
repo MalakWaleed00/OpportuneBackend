@@ -8,10 +8,10 @@ import com.example.demo.service.ICvService;
 import com.example.demo.southbound.entity.*;
 import com.example.demo.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -111,7 +111,7 @@ public class CvServiceImpl implements ICvService {
 
         // 1. Get main CV
         Cv cv = cvRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("CV not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "CV not found for user " + userId));
 
         Long cvId = cv.getId();
 
